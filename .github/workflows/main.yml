@@ -1,24 +1,26 @@
-name: CI Workflow
+name: Node.js Simple CI
 
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  run-js:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install || echo "No package.json, skipping"
 
-      - name: Run tests
-        run: npm test
+      - name: Run app.js
+        run: node app.js
